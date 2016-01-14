@@ -1,16 +1,15 @@
 FROM ubuntu:14.04
 
-# Install dependencies
-RUN apt-get update && \
-  apt-get install -y build-essential python git zlib1g-dev libbz2-dev wget supervisor maven2 && \
-  mkdir -p /var/log/supervisor
-
-# Install Java 7
+# Install Java 8
 RUN apt-get install software-properties-common -y && \
-  apt-add-repository ppa:webupd8team/java -y && \
+  add-apt-repository ppa:webupd8team/java -y && \
   apt-get update && \
-  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && \
-  apt-get install oracle-java7-installer -y
+  echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  apt-get install oracle-java8-installer -y && \
+  apt-get install oracle-java8-set-default -y
+
+# Install dependencies
+RUN apt-get install -y build-essential python git zlib1g-dev libbz2-dev wget supervisor maven2
 
 # Install web.py
 RUN apt-get install -y python-setuptools && \
